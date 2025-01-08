@@ -5,7 +5,7 @@ Welcome to the CSL-332 Network Lab! This repository contains a series of laborat
 ## Table of Contents
 | DATE       | LAB NO | TITLE                                                                          | Link          |
 |------------|--------|--------------------------------------------------------------------------------|---------------|
-| 07-01-2025 | 1      | Basics of Networking Configuration files and networking commands in Linux      | [LAB 1]()     |
+| 07-01-2025 | 1      | Basics of Networking Configuration files and networking commands in Linux      | [LAB 1](https://github.com/Viwvwek/-CSL-332-NETWORK-LAB/tree/main/LAB%201)     |
 | 07-01-2025 | 2      | Use and Functioning of System Calls in Network Programming in Linux            | [LAB 2]()     |
 
 ## Lab Overview
