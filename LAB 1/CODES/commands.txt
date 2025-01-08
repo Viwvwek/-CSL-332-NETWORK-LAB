@@ -1,1 +1,11 @@
 ip addr
+ping
+ifconfig
+dig
+netstat
+host
+arp
+iwconfig
+route
+hostname
+mtr
