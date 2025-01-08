@@ -1,0 +1,102 @@
+ip address
+
+1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN group default qlen 1000
+    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
+    inet 127.0.0.1/8 scope host lo
+       valid_lft forever preferred_lft forever
+    inet6 ::1/128 scope host noprefixroute 
+       valid_lft forever preferred_lft forever
+2: enp1s0: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc pfifo_fast state UP group default qlen 1000
+    link/ether 6c:4b:90:c1:df:96 brd ff:ff:ff:ff:ff:ff
+    inet 192.168.15.158/23 brd 192.168.15.255 scope global noprefixroute enp1s0
+       valid_lft forever preferred_lft forever
+ping 8.8.8.8
+
+PING google.com (142.250.190.14) 56(84) bytes of data.
+64 bytes from 142.250.190.14: icmp_seq=1 ttl=117 time=14.2 ms
+64 bytes from 142.250.190.14: icmp_seq=2 ttl=117 time=13.8 ms
+64 bytes from 142.250.190.14: icmp_seq=3 ttl=117 time=14.0 ms
+
+ifconfig
+eth0      Link encap:Ethernet  HWaddr 00:1a:2b:3c:4d:5e  
+          inet addr:192.168.1.10  Bcast:192.168.1.255  Mask:255.255.255.0
+          inet6 addr: fe80::21a:2bff:fe3c:4d5e/64 Scope:Link
+          UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1
+          RX packets:1000 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:500 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:1000 
+          RX bytes:1000000 (1.0 MB)  TX bytes:500000 (500.0 KB)
+
+lo        Link encap:Local Loopback  
+          inet addr:127.0.0.1  Mask:255.0.0.0
+          UP LOOPBACK RUNNING  MTU:65536  Metric:1
+          RX packets:200 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:200 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:0 
+          RX bytes:20000 (20.0 KB)  TX bytes:20000 (20.0 KB) 
+
+
+dig
+; <<>> DiG 9.18.24-0ubuntu5-Ubuntu <<>> google.com
+;; global options: +cmd
+;; Got answer:
+;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 32269
+;; flags: qr rd ra; QUERY: 1, ANSWER: 1, AUTHORITY: 0, ADDITIONAL: 1
+
+;; OPT PSEUDOSECTION:
+; EDNS: version: 0, flags:; udp: 65494
+;; QUESTION SECTION:
+;google.com.			IN	A
+
+;; ANSWER SECTION:
+google.com.		12	IN	A	142.250.195.110
+
+;; Query time: 20 msec
+;; SERVER: 127.0.0.53#53(127.0.0.53) (UDP)
+;; WHEN: Wed Jan 08 09:59:35 IST 2025
+;; MSG SIZE  rcvd: 55
+
+netstat 
+Proto Recv-Q Send-Q Local Address           Foreign Address         State
+tcp        0      0 0.0.0.0:22             0.0.0.0:*               LISTEN
+tcp        0      0 192.168.1.10:80        192.168.1.5:54321       ESTABLISHED
+tcp6       0      0 :::80                   :::*                    LISTEN
+udp        0      0 0.0.0.0:123            0.0.0.0:*
+
+
+host
+host google.com
+google.com has address 142.250.195.110
+google.com has IPv6 address 2404:6800:4007:824::200e
+google.com mail is handled by 10 smtp.google.com.
+
+arp
+? (142.250.190.14) at 00:1a:2b:3c:4d:5e [ether] on eth0
+
+iwconfig
+
+lo        no wireless extensions.
+
+enp1s0    no wireless extensions.
+
+route
+Kernel IP routing table
+Destination     Gateway         Genmask         Flags Metric Ref    Use Iface
+0.0.0.0         192.168.1.1     0.0.0.0         UG    100    0        0 eth0
+192.168.1.0     0.0.0.0         255.255.255.0   U     0      0        0 eth0
+
+hostname
+H58
+
+mtr
+Start: 2023-10-23T12:34:56
+HOST: my-computer              Loss%   Snt   Last   Avg  Best  Wrst StDev
+  1. 192.168.1.1                0.0%    10    1.23   1.45   1.12   2.34   0.45
+  2. 10.0.0.1                   0.0%    10    2.34   2.56   2.12   3.45   0.56
+  3. 172.217.14.206             0.0%    10   14.56  14.78  14.12  15.34   0.45
+  4. 108.177.12.1               0.0%    10   15.67  15.89  15.12  16.45   0.67
+  5. 216.58.214.206             0.0%    10   16.78  16.90  16.12  17.34   0.78
+
+
+
+
