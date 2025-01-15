@@ -1,3 +1,25 @@
+/*
+ * TCP Server Program
+ *
+ * This program implements a simple TCP server that listens for incoming connections
+ * on a specified port (2000 in this case) and communicates with clients.
+ *
+ * Logic:
+ * 1. Include necessary header files for socket programming and standard I/O.
+ * 2. Declare variables for socket descriptors, client address structures, and message buffers.
+ * 3. Initialize message buffers to ensure they are empty before use.
+ * 4. Create a TCP socket using the socket() function.
+ * 5. Configure the server address structure with the desired IP address and port number.
+ * 6. Bind the socket to the specified address and port using the bind() function.
+ * 7. Start listening for incoming connections with the listen() function.
+ * 8. Accept a connection from a client using the accept() function.
+ * 9. Receive a message from the connected client using the recv() function.
+ * 10. Prepare a response message to send back to the client.
+ * 11. Send the response message using the send() function.
+ * 12. Close the client socket and the server socket to clean up resources.
+ * 13. Exit the program successfully.
+ */
+
 #include <stdio.h>
 #include <string.h>
 #include <sys/socket.h> // Socket programming functions
