@@ -9,11 +9,11 @@ Welcome to the **CSL-332 Network Lab**! This repository contains a series of lab
 | Date       | Lab No | Title                                                                          | Link                                                                 |
 |------------|--------|--------------------------------------------------------------------------------|----------------------------------------------------------------------|
 | 07-01-2025 | 1      | Basics of Networking Configuration Files and Networking Commands in Linux      | [LAB 1](https://github.com/Viwvwek/-CSL-332-NETWORK-LAB/tree/main/LAB%201) |
-| 07-01-2025 | 2      | Use and Functioning of System Calls in Network Programming in Linux            | [LAB 1 - System Calls](https://github.com/Viwvwek/-CSL-332-NETWORK-LAB/tree/main/LAB%201/CODES/Exp2/System_calls) |
-| 15-01-2025 | 3      | Implementation of Client-Server Communication Using Socket Programming and TCP | [LAB 2](https://github.com/Viwvwek/-CSL-332-NETWORK-LAB/tree/main/LAB%202) |
-| 22-01-2025 | 4      | Implementation of Client-Server Communication Using Socket Programming and UDP | [LAB 3](https://github.com/Viwvwek/-CSL-332-NETWORK-LAB/tree/main/LAB%202) |
-| 29-01-2025 | 5      | Implementation of Sliding Window Protocol                                      | [LAB 4](https://github.com/Viwvwek/-CSL-332-NETWORK-LAB/tree/main/LAB%202) |
-| 29-01-2025 | 6      | Implementation of Goback N                                     | [LAB 5](https://github.com/Viwvwek/-CSL-332-NETWORK-LAB/tree/main/LAB%205) |
+| 07-01-2025 | 2      | Use and Functioning of System Calls in Network Programming in Linux            | [LAB 2 - System Calls](https://github.com/Viwvwek/-CSL-332-NETWORK-LAB/tree/main/LAB%201/CODES/Exp2/System_calls) |
+| 15-01-2025 | 3      | Implementation of Client-Server Communication Using Socket Programming and TCP | [LAB 3](https://github.com/Viwvwek/-CSL-332-NETWORK-LAB/tree/main/LAB%202) |
+| 22-01-2025 | 4      | Implementation of Client-Server Communication Using Socket Programming and UDP | [LAB 4](https://github.com/Viwvwek/-CSL-332-NETWORK-LAB/tree/main/LAB%203) |
+| 29-01-2025 | 5      | Implementation of Sliding Window Protocol                                      | [LAB 5](https://github.com/Viwvwek/-CSL-332-NETWORK-LAB/tree/main/LAB%204) |
+| 12-02-2025 | 6      | Implementation of Go-Back-N Protocol                                           | [LAB 6](https://github.com/Viwvwek/-CSL-332-NETWORK-LAB/tree/main/LAB%205) |
 
 ---
 
@@ -43,6 +43,11 @@ Welcome to the **CSL-332 Network Lab**! This repository contains a series of lab
 - **Date**: 29-01-2025  
 - **Title**: Implementation of Sliding Window Protocol  
 - **Description**: Understand and implement the sliding window protocol, a fundamental concept in data link layer communication.
+
+### **Lab 6: Go-Back-N Protocol**
+- **Date**: 12-02-2025  
+- **Title**: Implementation of Go-Back-N Protocol  
+- **Description**: Learn about the Go-Back-N ARQ protocol, which is used for reliable data communication.
 
 ---
 
