@@ -13,7 +13,7 @@ Welcome to the **CSL-332 Network Lab**! This repository contains a series of lab
 | 15-01-2025 | 3      | Implementation of Client-Server Communication Using Socket Programming and TCP | [LAB 2](https://github.com/Viwvwek/-CSL-332-NETWORK-LAB/tree/main/LAB%202) |
 | 22-01-2025 | 4      | Implementation of Client-Server Communication Using Socket Programming and UDP | [LAB 3](https://github.com/Viwvwek/-CSL-332-NETWORK-LAB/tree/main/LAB%202) |
 | 29-01-2025 | 5      | Implementation of Sliding Window Protocol                                      | [LAB 4](https://github.com/Viwvwek/-CSL-332-NETWORK-LAB/tree/main/LAB%202) |
-| 29-01-2025 | 6      | Implementation of Goback N                                     | [LAB 5](https://github.com/Viwvwek/-CSL-332-NETWORK-LAB/tree/main/LAB%202) |
+| 29-01-2025 | 6      | Implementation of Goback N                                     | [LAB 5](https://github.com/Viwvwek/-CSL-332-NETWORK-LAB/tree/main/LAB%205) |
 
 ---
 
