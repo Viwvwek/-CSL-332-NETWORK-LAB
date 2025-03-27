@@ -1,109 +1,86 @@
-#include <netdb.h>
 #include <stdio.h>
-#include <netinet/in.h>
 #include <stdlib.h>
 #include <string.h>
 #include <sys/socket.h>
-#include <sys/types.h>
-#include <sys/time.h>
+#include <arpa/inet.h>
 #include <unistd.h>
-#define MAX 80
-#define PORT 8080
-#define SA struct sockaddr
-struct timeval timeout;
-void func(int connfd)
-{
-	char buff[MAX];
-	int f,c,ack,next=0;
-	while(1)
-	{
-		sleep(1);
-		bzero(buff,MAX);
-		recv(connfd,buff,MAX,0);
-		if(strcmp("Exit",buff)==0)
-		{
-			printf("Exit\n");
-			break;
-		}
-		f=atoi(buff);
-		c=rand()%3;
-		switch(c)
-		{
-			case 0:
-				printf("Frame %d not received\n",f);
-				ack=-1;
-				printf("Negative Acknowledgement sent: %d\n",f);
-				bzero(buff,MAX);
-				snprintf(buff,sizeof(buff),"%d",ack);
-				send(connfd,buff,sizeof(buff),0);
-				break;
-			case 1:
-				ack=f;
-				sleep(2);
-				printf("Frame %d received\nAcknowledgement sent: %d\n",f,ack);
-				bzero(buff,MAX);
-				snprintf(buff,sizeof(buff),"%d",ack);
-				send(connfd,buff,sizeof(buff),0);
-				next=ack+1;
-				break;
-			case 2:
-				ack=f;
-				printf("Frame %d received\nAcknowledgement sent: %d\n",f,ack);
-				bzero(buff,MAX);
-				snprintf(buff,sizeof(buff),"%d",ack);
-				send(connfd,buff,sizeof(buff),0);
-				next=ack+1;
-				break;
-		}
-	}
-}
-void main()
-{
-	int sockfd,connfd,len;
-	struct sockaddr_in servaddr,cli;
-	sockfd=socket(AF_INET,SOCK_STREAM,0);
-	if(sockfd == -1)
-	{
-		printf("Socket creation failed\n");
-		exit(0);
-	}
-	else
-	{
-		printf("Socket successfully created\n");
-		bzero(&servaddr,sizeof(servaddr));
-		servaddr.sin_family=AF_INET;
-		servaddr.sin_addr.s_addr=htonl(INADDR_ANY);
-		servaddr.sin_port=htons(PORT);
-		if((bind(sockfd,(SA *)&servaddr,sizeof(servaddr))) != 0)
-		{
-			printf("Socket bind failed\n");
-			exit(0);
-		}
-		else
-		{
-			printf("Socket successfully binded\n");
-			if((listen(sockfd,5)) != 0)
-			{
-				printf("Listen failed\n");
-				exit(0);
-			}
-			else
-			{
-				printf("Server listening\n");
-			}
-			len=sizeof(cli);
-			connfd=accept(sockfd,(SA *)&cli,&len);
-			if(connfd < 0)
-			{
-				printf("Server accept failed\n");
-				exit(0);
-			}
-			else
-			{
-				printf("Server accept the client\n");
-			}
-			func(connfd);
-			close(sockfd);
-		}
-	}
+
+int main(void) {
+    int socket_desc, client_sock, client_size;
+    struct sockaddr_in server_addr, client_addr;
+    char buffer[1024];
+    int total_frames = 5;
+    int received_frames[total_frames];  
+    int expected_frame = 0;
+
+    for (int i = 0; i < total_frames; i++) {
+        received_frames[i] = 0;
+    }
+
+    socket_desc = socket(AF_INET, SOCK_STREAM, 0);
+    if (socket_desc < 0) {
+        printf("Error while creating socket\n");
+        return -1;
+    }
+    printf("Socket created successfully\n");
+
+    server_addr.sin_family = AF_INET;
+    server_addr.sin_port = htons(5000);
+    server_addr.sin_addr.s_addr = inet_addr("127.0.0.1");
+
+    if (bind(socket_desc, (struct sockaddr*)&server_addr, sizeof(server_addr)) < 0) {
+        printf("Couldn't bind to port\n");
+        return -1;
+    }
+    printf("Done with binding\n");
+
+    if (listen(socket_desc, 1) < 0) {
+        printf("Error while listening\n");
+        return -1;
+    }
+    printf("\nListening for incoming connections...\n");
+
+    client_size = sizeof(client_addr);
+    client_sock = accept(socket_desc, (struct sockaddr*)&client_addr, &client_size);
+    if (client_sock < 0) {
+        printf("Can't accept\n");
+        return -1;
+    }
+    printf("Client connected at IP: %s and port: %i\n", inet_ntoa(client_addr.sin_addr), ntohs(client_addr.sin_port));
+
+    int frames_received = 0;
+    while (frames_received < total_frames) {
+        if (recv(client_sock, buffer, sizeof(buffer), 0) < 0) {
+            printf("Error in receiving\n");
+            exit(1);
+        }
+
+        int frame_number = atoi(buffer);
+        printf("Frame received: %d\n", frame_number);
+
+        if (frame_number % 2 != 0) {  
+            printf("Error detected in frame %d. No acknowledgment sent.\n", frame_number);
+            continue;  
+        }
+
+        if (frame_number >= expected_frame && frame_number < expected_frame + 4) {
+            received_frames[frame_number] = 1;
+            printf("Acknowledgment sent for frame %d\n", frame_number);
+            snprintf(buffer, sizeof(buffer), "%d", frame_number);
+            send(client_sock, buffer, sizeof(buffer), 0);
+        } else {
+            printf("Duplicate/out-of-order frame received: %d. Resending last acknowledgment: %d\n", frame_number, expected_frame - 1);
+            snprintf(buffer, sizeof(buffer), "%d", expected_frame - 1);
+            send(client_sock, buffer, sizeof(buffer), 0);
+        }
+
+        while (received_frames[expected_frame] == 1) {
+            expected_frame++;
+            frames_received++;
+        }
+    }
+
+    close(client_sock);
+    close(socket_desc);
+    return 0;
 }
