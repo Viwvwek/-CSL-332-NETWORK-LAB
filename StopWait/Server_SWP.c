@@ -9,7 +9,7 @@ int main(void) {
     int socket_desc, client_sock, client_size;
     struct sockaddr_in server_addr, client_addr;
     char buffer[1024];
-    int frame_number = 1, wait_time, frames_to_receive = 5;
+    int frame_number = 1, frames_to_receive;
 
     socket_desc = socket(AF_INET, SOCK_STREAM, 0);
     if (socket_desc < 0) {
@@ -42,6 +42,10 @@ int main(void) {
     }
     printf("Client connected at IP: %s and port: %i\n", inet_ntoa(client_addr.sin_addr), ntohs(client_addr.sin_port));
 
+    // Receive number of frames from client
+    recv(client_sock, &frames_to_receive, sizeof(frames_to_receive), 0);
+    printf("Receiving %d frames from client...\n", frames_to_receive);
+
     while (frames_to_receive > 0) {
         if (recv(client_sock, buffer, sizeof(buffer), 0) < 0) {
             printf("Error in receiving\n");
@@ -49,15 +53,16 @@ int main(void) {
         }
 
         if (frame_number % 2 != 0) {
-            printf("Acknowledgment lost for frame %d\n", frame_number);
+            printf("Frame %d not received\n", frame_number);
             sleep(3);
-            printf("Retransmitting acknowledgment...\n");
+            printf("Negative Acknowledgment sent: %d\n", frame_number);
+        } else {
+            printf("Frame %d received\n", frame_number);
+            printf("Acknowledgment sent: %d\n", frame_number);
         }
 
-        strcpy(buffer, "ack");
-        printf("Sending acknowledgment for frame %d\n", frame_number);
-
-        if (send(client_sock, buffer, 19, 0) < 0) {
+        sprintf(buffer, "ACK %d", frame_number);
+        if (send(client_sock, buffer, sizeof(buffer), 0) < 0) {
             printf("Error in sending\n");
             exit(1);
         }

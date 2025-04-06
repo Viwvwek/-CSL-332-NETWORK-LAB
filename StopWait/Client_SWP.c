@@ -6,15 +6,15 @@
 #include <stdlib.h>
 
 int main(void) {
-    int frames_to_send = 5, frame_number = 1, wait_time;
+    int frames_to_send;
+    int frame_number = 1;
     char buffer[1024];
+
+    printf("Enter total number of frames to send: ");
+    scanf("%d", &frames_to_send);
 
     int socket_desc; 
     struct sockaddr_in server_addr; 
-    char server_message[2000], client_message[2000]; 
-
-    memset(server_message, '\0', sizeof(server_message)); 
-    memset(client_message, '\0', sizeof(client_message)); 
 
     socket_desc = socket(AF_INET, SOCK_STREAM, 0); 
     if (socket_desc < 0) { 
@@ -33,6 +33,9 @@ int main(void) {
     }
     printf("Connected to server successfully!\n");
 
+    // Send total frames to server
+    send(socket_desc, &frames_to_send, sizeof(frames_to_send), 0);
+
     while (frames_to_send > 0) {
         printf("Sending frame %d\n", frame_number);
 
@@ -43,14 +46,17 @@ int main(void) {
         }
 
         strcpy(buffer, "frame");
-        if (send(socket_desc, buffer, 19, 0) == -1) {
+        if (send(socket_desc, buffer, sizeof(buffer), 0) == -1) {
             printf("Error in sending\n");
             exit(1);
         }
+
         printf("Frame %d sent successfully\n", frame_number);
 
-        if (recv(socket_desc, buffer, 1024, 0) == -1) {
+        if (recv(socket_desc, buffer, sizeof(buffer), 0) == -1) {
             printf("Error in receiving data\n");
+        } else {
+            printf("Acknowledgment received: %d\n", frame_number);
         }
 
         frames_to_send--;
